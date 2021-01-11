@@ -17,6 +17,15 @@ public class Radix{
   }
 
   public static void merge(MyLinkedList original, MyLinkedList[] buckets){
+    for (int i=0; i<buckets.length; i++){
+      original.extend(buckets[i]);
+    }
+  }
 
+  public static void radixSort(String[] list){
+    MyLinkedList[] buckets = new MyLinkedList[10];
+    for (int i=0; i<10; i++){
+      buckets[i] = new MyLinkedList();
+    }
   }
 }
