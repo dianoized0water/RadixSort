@@ -22,15 +22,10 @@ public class Radix{
     }
   }
 
-  private static int largest(SortableLinkedList data){
-    if (data.size()==0){
-      return 0;
+  public static void mergeNeg(SortableLinkedList original, SortableLinkedList[] buckets){
+    for (int i=0; i<buckets.length; i++){
+      original.extend(buckets[buckets.length-1-i]);
     }
-    int m = Math.abs(data.get(0));
-    for (int i=1; i<data.size(); i++){
-      m = Math.max(m, Math.abs(data.get(i)));
-    }
-    return length(m);
   }
 
   public static void radixSortSimple(SortableLinkedList data){
@@ -51,6 +46,24 @@ public class Radix{
     }
   }
 
+  public static void radixSortSimpleNeg(SortableLinkedList data){
+    int m = 1;
+    SortableLinkedList[] buckets = new SortableLinkedList[10];
+    for(int i=0; i<buckets.length; i++){
+      buckets[i] = new SortableLinkedList();
+    }
+    for (int i=0; i<m; i++){
+      while(data.size()>0){
+        int value = data.remove(0);
+        buckets[nth(value, i)].add(value);
+        if (i==0){
+          m = Math.max(m, length(value));
+        }
+      }
+      mergeNeg(data, buckets);
+    }
+  }
+
   public static void radixSort(SortableLinkedList data){
     SortableLinkedList p = new SortableLinkedList();
     SortableLinkedList n = new SortableLinkedList();
@@ -64,10 +77,8 @@ public class Radix{
       }
     }
     radixSortSimple(p);
-    radixSortSimple(n);
-    while(n.size()>0){
-      data.add(n.remove(n.size()-1));
-    }
+    radixSortSimpleNeg(n);
+    data.extend(n);
     data.extend(p);
   }
 }
