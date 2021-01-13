@@ -43,7 +43,9 @@ public class Radix{
       while(data.size()>0){
         int value = data.remove(0);
         buckets[nth(value, i)].add(value);
-        m = Math.max(m, length(value));
+        if (i==0){
+          m = Math.max(m, length(value));
+        }
       }
       merge(data, buckets);
     }
