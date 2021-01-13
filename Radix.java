@@ -34,7 +34,7 @@ public class Radix{
   }
 
   public static void radixSortSimple(SortableLinkedList data){
-    int m = largest(data);
+    int m = 1;
     SortableLinkedList[] buckets = new SortableLinkedList[10];
     for(int i=0; i<buckets.length; i++){
       buckets[i] = new SortableLinkedList();
@@ -43,6 +43,7 @@ public class Radix{
       while(data.size()>0){
         int value = data.remove(0);
         buckets[nth(value, i)].add(value);
+        m = Math.max(m, length(value));
       }
       merge(data, buckets);
     }
